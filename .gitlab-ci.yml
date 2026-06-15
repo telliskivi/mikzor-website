@@ -7,7 +7,7 @@
 # contents of the source `public/` into `dist/` during build, so nothing
 # is lost by the swap.
 
-image: node:20-alpine
+image: node:22-alpine
 
 stages:
   - deploy
