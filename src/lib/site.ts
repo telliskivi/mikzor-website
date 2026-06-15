@@ -5,7 +5,7 @@ export const SITE = {
   title: 'mikael ristmets',
   tagline: 'archive · portfolio',
   description:
-    'an archive feed and portfolio of work by mikael ristmets — architecture, photo, music, zine, and more.',
+    'archive and portfolio of mikael ristmets — architecture, furniture, installations, zine, photography, video, art, music, coffee.',
   author: 'mikael ristmets',
   locale: 'en',
   // OG fallback lives in /public, referenced by absolute path.

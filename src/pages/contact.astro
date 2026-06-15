@@ -8,21 +8,27 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 >
   <article class="container">
     <header class="page-head">
-      <p class="eyebrow">§ &nbsp; correspondence</p>
+      <p class="eyebrow">§ &nbsp; contact</p>
       <h1>get in touch</h1>
       <hr class="rule rule--short" />
     </header>
 
     <div class="prose">
       <p class="lede">
-        the fastest way is by mail:
-        <a href="mailto:hello@example.tld">hello@example.tld</a>.
+        <span class="red">mina usun, et arhitektuur pole üksnes ruumikujundamise
+        tööriist, vaid ka ühiskonna, misläbi on võimalik luua paremat
+        elu kõigile.</span>
+      </p>
+      <p class="lede">
+        <span class="blue">architecture is not just something we use to design
+        the space around us, but something that also shapes society,
+        which allows for the creation of better lives for everyone.</span>
       </p>
 
-      <p>elsewhere on the open web —</p>
       <ul class="links">
-        <li><a href="https://www.instagram.com/" rel="me noopener" target="_blank">instagram</a></li>
-        <li><a href="https://www.are.na/" rel="me noopener" target="_blank">are.na</a></li>
+        <li><a href="mailto:mikael.ristmets@gmail.com">mikael.ristmets@gmail.com</a></li>
+        <li><a href="tel:+3725181279">+372 518 1279</a></li>
+        <li><a href="https://www.linkedin.com/" rel="me noopener" target="_blank">linkedin</a></li>
         <li><a href="https://soundcloud.com/mikzor" rel="me noopener" target="_blank">soundcloud</a></li>
         <li><a href="/feed.xml">rss</a></li>
       </ul>
@@ -52,7 +58,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
   .links {
     list-style: none;
     padding: 0;
-    margin-top: var(--sp-4);
+    margin-top: var(--sp-5);
     font-family: var(--font-mono);
     font-size: var(--fs-sm);
     display: grid;

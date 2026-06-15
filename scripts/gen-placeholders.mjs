@@ -10,7 +10,6 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const root = resolve(dirname(__filename), '..');
 
-// (bg, fg) pairs chosen to look distinguishable but cohesive with the palette.
 const palettes = {
   sand:     { bg: '#e7e1d2', fg: '#3a2e1f' },
   rust:     { bg: '#c4452a', fg: '#f6f4ee' },
@@ -28,7 +27,6 @@ function svgFor(width, height, palette, label) {
   const { bg, fg } = palette;
   const fontSize = Math.round(Math.min(width, height) * 0.07);
   const subFontSize = Math.round(fontSize * 0.45);
-  // simple geometric mark + label
   return `
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <rect width="100%" height="100%" fill="${bg}"/>
@@ -48,9 +46,7 @@ function svgFor(width, height, palette, label) {
 async function makeJpg(outPath, { width = 1600, height = 1000, palette, label }) {
   const svg = svgFor(width, height, palette, label);
   await mkdir(dirname(outPath), { recursive: true });
-  await sharp(Buffer.from(svg))
-    .jpeg({ quality: 80, mozjpeg: true })
-    .toFile(outPath);
+  await sharp(Buffer.from(svg)).jpeg({ quality: 80, mozjpeg: true }).toFile(outPath);
   console.log(`  ✓ ${outPath.replace(root + '/', '').replace(root + '\\', '')}`);
 }
 
@@ -62,37 +58,18 @@ async function makePng(outPath, { width, height, palette, label }) {
 }
 
 const jobs = [
-  // OG fallback (1200x630)
-  ['public/og-default.png',                                 { width: 1200, height: 630,  palette: palettes.sand,     label: 'mikael ristmets' }, makePng],
+  // OG fallback
+  ['public/og-default.png',                              { width: 1200, height: 630, palette: palettes.sand,     label: 'mikael ristmets' }, makePng],
 
-  // 2025-arch-pavilion
-  ['src/content/posts/2025-arch-pavilion/cover.jpg',        { palette: palettes.sand,     label: 'arch · pavilion'   }, makeJpg],
+  // placeholders for projects we couldn't fetch a real cover for
+  ['src/content/posts/2020-photography/cover.jpg',       { palette: palettes.cobalt,   label: 'foto / photo'      }, makeJpg],
+  ['src/content/posts/2022-video/cover.jpg',             { palette: palettes.charcoal, label: 'video'             }, makeJpg],
+  ['src/content/posts/2023-tuv-mot/cover.jpg',           { palette: palettes.amber,    label: 'tüv / mot'         }, makeJpg],
 
-  // 2024-funkfest
-  ['src/content/posts/2024-funkfest/cover.jpg',             { palette: palettes.rust,     label: 'funkfest 2024'     }, makeJpg],
-  ['src/content/posts/2024-funkfest/gallery-1.jpg',         { palette: palettes.amber,    label: 'funkfest · 01'     }, makeJpg],
-  ['src/content/posts/2024-funkfest/gallery-2.jpg',         { palette: palettes.espresso, label: 'funkfest · 02'     }, makeJpg],
-  ['src/content/posts/2024-funkfest/gallery-3.jpg',         { palette: palettes.blush,    label: 'funkfest · 03'     }, makeJpg],
-
-  // 2024-zine-issue-one
-  ['src/content/posts/2024-zine-issue-one/cover.jpg',       { palette: palettes.paper,    label: 'zine · issue 01'   }, makeJpg],
-
-  // 2024-foto-walk
-  ['src/content/posts/2024-foto-walk/cover.jpg',            { palette: palettes.cobalt,   label: 'foto · walk'       }, makeJpg],
-  ['src/content/posts/2024-foto-walk/inline-1.jpg',         { palette: palettes.forest,   label: 'foto · 01'         }, makeJpg],
-  ['src/content/posts/2024-foto-walk/inline-2.jpg',         { palette: palettes.charcoal, label: 'foto · 02'         }, makeJpg],
-
-  // 2023-coffee-notes
-  ['src/content/posts/2023-coffee-notes/cover.jpg',         { palette: palettes.espresso, label: 'coffee · notes'    }, makeJpg],
-
-  // 2023-music-mix
-  ['src/content/posts/2023-music-mix/cover.jpg',            { palette: palettes.moss,     label: 'music · mix'       }, makeJpg],
-
-  // 2024-ambient-232
-  ['src/content/posts/2024-ambient-232/cover.jpg',          { palette: palettes.charcoal, label: 'ambient · 232 wip' }, makeJpg],
-
-  // 2021-15012021a
-  ['src/content/posts/2021-15012021a/cover.jpg',            { palette: palettes.cobalt,   label: '15.01.2021a'       }, makeJpg],
+  // existing music posts — keep their placeholders
+  ['src/content/posts/2024-ambient-232/cover.jpg',       { palette: palettes.charcoal, label: 'ambient · 232 wip' }, makeJpg],
+  ['src/content/posts/2021-15012021a/cover.jpg',         { palette: palettes.cobalt,   label: '15.01.2021a'       }, makeJpg],
+  ['src/content/posts/2023-music-mix/cover.jpg',         { palette: palettes.moss,     label: 'late summer mix'   }, makeJpg],
 ];
 
 console.log('generating placeholder images…');
