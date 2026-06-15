@@ -1,0 +1,38 @@
+# GitLab CI/CD — builds the Astro site on every push to the default branch
+# and publishes the static output to GitLab Pages.
+#
+# The build runs in a Node 20 container, runs `npm ci && npm run build`,
+# then swaps the source `public/` folder for the built `dist/` folder
+# (GitLab Pages expects the final artifact in `public/`). Astro copies the
+# contents of the source `public/` into `dist/` during build, so nothing
+# is lost by the swap.
+
+image: node:20-alpine
+
+stages:
+  - deploy
+
+# Cache npm + node_modules between runs to speed up builds.
+.cache: &cache
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+    - node_modules/
+
+pages:
+  stage: deploy
+  cache: *cache
+  script:
+    - npm ci --cache .npm --prefer-offline
+    - npm run build
+    - rm -rf public
+    - mv dist public
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  rules:
+    # Only deploy from the default branch (main).
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
