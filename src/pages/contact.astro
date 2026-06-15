@@ -1,0 +1,66 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="contact"
+  description="how to get in touch with mikael ristmets."
+>
+  <article class="container">
+    <header class="page-head">
+      <p class="eyebrow">§ &nbsp; correspondence</p>
+      <h1>get in touch</h1>
+      <hr class="rule rule--short" />
+    </header>
+
+    <div class="prose">
+      <p class="lede">
+        the fastest way is by mail:
+        <a href="mailto:hello@example.tld">hello@example.tld</a>.
+      </p>
+
+      <p>elsewhere on the open web —</p>
+      <ul class="links">
+        <li><a href="https://www.instagram.com/" rel="me noopener" target="_blank">instagram</a></li>
+        <li><a href="https://www.are.na/" rel="me noopener" target="_blank">are.na</a></li>
+        <li><a href="https://soundcloud.com/mikzor" rel="me noopener" target="_blank">soundcloud</a></li>
+        <li><a href="/feed.xml">rss</a></li>
+      </ul>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-head {
+    margin-bottom: var(--sp-6);
+    display: grid;
+    gap: var(--sp-3);
+    max-width: var(--measure);
+  }
+  .page-head h1 {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: var(--fs-2xl);
+    line-height: var(--lh-tight);
+    letter-spacing: 0;
+  }
+  .lede {
+    font-family: var(--font-mono);
+    font-size: var(--fs-md);
+    line-height: 1.5;
+  }
+  .links {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--sp-4);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    display: grid;
+    gap: var(--sp-2);
+  }
+  .links li::before {
+    content: '→';
+    color: var(--accent);
+    margin-right: var(--sp-2);
+  }
+</style>

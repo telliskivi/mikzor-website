@@ -1,0 +1,63 @@
+---
+// Live clock for Europe/Tallinn. SSR'd to a stable initial value, then a tiny
+// inline script ticks it every second on the client. Degrades to the static
+// initial value when JS is disabled.
+
+const formatter = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/Tallinn',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false,
+});
+
+const initial = formatter.format(new Date());
+---
+
+<span class="clock" aria-label="current time in tallinn">
+  <span class="label" aria-hidden="true">tallinn</span>
+  <time class="value" data-tallinn-clock>{initial}</time>
+</span>
+
+<script>
+  const fmt = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Tallinn',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+
+  function tick() {
+    const el = document.querySelector<HTMLElement>('[data-tallinn-clock]');
+    if (!el) return;
+    el.textContent = fmt.format(new Date());
+  }
+
+  // align first tick to the next whole second to avoid a stuttery 1s gap
+  const now = new Date();
+  const msToNextSecond = 1000 - now.getMilliseconds();
+  setTimeout(() => {
+    tick();
+    setInterval(tick, 1000);
+  }, msToNextSecond);
+</script>
+
+<style>
+  .clock {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5ch;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .label {
+    letter-spacing: 0.04em;
+  }
+  .value {
+    color: var(--fg);
+  }
+</style>

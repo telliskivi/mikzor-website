@@ -1,0 +1,61 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="about"
+  description="about mikael ristmets — a tallinn-based architect and creator."
+>
+  <article class="container">
+    <header class="page-head">
+      <p class="eyebrow">⁂ &nbsp; on the writer</p>
+      <h1>about</h1>
+      <hr class="rule rule--short" />
+    </header>
+
+    <div class="prose">
+      <p class="lede">
+        i'm a tallinn-based architect and creator. this site is an archive of
+        ongoing and finished work — buildings, chairs, photo, music, zines,
+        and the things in between.
+      </p>
+
+      <p>
+        the homepage is a single newest-first feed of everything. each section
+        is a filtered slice of the same archive. there is no separation between
+        "portfolio" and "log" — it is all one place, browsable both ways.
+      </p>
+
+      <h2>colophon</h2>
+      <p>
+        set in <em>iowan old style</em> (with fallbacks to charter, georgia,
+        and others) for display, and a system monospace for body. built with
+        <a href="https://astro.build">astro</a>, statically rendered, hosted
+        on cloudflare pages. all entries live as markdown files next to their
+        images in this repository.
+      </p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page-head {
+    margin-bottom: var(--sp-6);
+    display: grid;
+    gap: var(--sp-3);
+    max-width: var(--measure);
+  }
+  .page-head h1 {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: var(--fs-2xl);
+    line-height: var(--lh-tight);
+    letter-spacing: 0;
+  }
+  .lede {
+    font-family: var(--font-mono);
+    font-size: var(--fs-md);
+    color: var(--fg);
+    line-height: 1.5;
+  }
+</style>

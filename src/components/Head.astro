@@ -1,0 +1,55 @@
+---
+import { SITE } from '~/lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;          // absolute path or full URL
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = SITE.description,
+  image,
+  type = 'website',
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${SITE.title}` : SITE.title;
+
+// Astro.site is the configured site URL; Astro.url is the current page URL.
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+
+// Resolve OG image to an absolute URL when only a path is given.
+const ogImage = image
+  ? (image.startsWith('http') ? image : `${siteOrigin}${image}`)
+  : `${siteOrigin}${SITE.ogFallback}`;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="alternate" type="application/rss+xml" title={`${SITE.title} — rss`} href="/feed.xml" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.title} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={SITE.locale} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<meta name="theme-color" content="#f6f4ee" />

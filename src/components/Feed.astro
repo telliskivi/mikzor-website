@@ -1,0 +1,74 @@
+---
+import FeedItem from './FeedItem.astro';
+import type { Post } from '~/lib/posts';
+
+interface Props {
+  posts: Post[];
+  emptyMessage?: string;
+  featureFirst?: boolean;
+}
+
+const { posts, emptyMessage = 'nothing here yet.', featureFirst = true } = Astro.props;
+
+const [first, ...rest] = posts;
+const showFeature = featureFirst && !!first;
+---
+
+{posts.length === 0 ? (
+  <p class="empty muted">{emptyMessage}</p>
+) : (
+  <div class="feed">
+    {showFeature && (
+      <div class="feature">
+        <FeedItem post={first} loading="eager" feature />
+      </div>
+    )}
+    <ul class="grid" role="list">
+      {(showFeature ? rest : posts).map((post, i) => (
+        <li>
+          <FeedItem post={post} loading={i < 2 && !showFeature ? 'eager' : 'lazy'} />
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+<style>
+  .feed {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-7);
+  }
+  .feature {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--sp-6);
+  }
+  .grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--sp-7) var(--sp-5);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 56rem) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    /* every 5th item spans both columns — breaks the strict grid */
+    .grid > li:nth-child(5n + 1):not(:last-child) {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 84rem) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .grid > li:nth-child(5n + 1):not(:last-child) {
+      grid-column: span 2;
+    }
+  }
+  .empty {
+    margin-top: var(--sp-5);
+  }
+</style>

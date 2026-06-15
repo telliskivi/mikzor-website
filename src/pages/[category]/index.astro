@@ -1,0 +1,98 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Feed from '~/components/Feed.astro';
+import { CATEGORIES, LABELS, formatCategory, type Category } from '~/lib/categories';
+import { getPostsByCategory } from '~/lib/posts';
+
+export async function getStaticPaths() {
+  return CATEGORIES.map((category) => ({
+    params: { category },
+    props: { category },
+  }));
+}
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+const posts = await getPostsByCategory(category);
+const label = formatCategory(category);
+const { en, et } = LABELS[category];
+---
+
+<BaseLayout
+  title={label}
+  description={`posts in the ${label} category.`}
+>
+  <section class="container header">
+    <p class="eyebrow">
+      <span class="dot" aria-hidden="true">◊</span>
+      section / {en}
+    </p>
+    <h1>
+      <span class="en">{en}</span>
+      <span class="slash" aria-hidden="true">/</span>
+      <span class="et">{et}</span>
+    </h1>
+    <p class="count">
+      {posts.length === 0
+        ? 'no entries yet in this section.'
+        : posts.length === 1
+          ? '01 entry'
+          : `${String(posts.length).padStart(2, '0')} entries`}
+    </p>
+    <hr class="rule rule--short" />
+  </section>
+  <section class="container">
+    <Feed posts={posts} emptyMessage={`no entries in ${en} yet.`} />
+  </section>
+</BaseLayout>
+
+<style>
+  .header {
+    margin-bottom: var(--sp-6);
+    display: grid;
+    gap: var(--sp-3);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--sp-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+  }
+  .dot {
+    color: var(--accent);
+    font-family: var(--font-serif);
+    font-size: var(--fs-sm);
+  }
+  h1 {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: var(--fs-2xl);
+    line-height: var(--lh-tight);
+    letter-spacing: 0;
+    margin-top: var(--sp-1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--sp-3);
+  }
+  h1 .et {
+    color: var(--muted);
+  }
+  h1 .slash {
+    color: var(--accent);
+  }
+  .count {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+</style>

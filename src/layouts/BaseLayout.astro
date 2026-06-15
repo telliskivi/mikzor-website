@@ -1,0 +1,70 @@
+---
+import '~/styles/global.css';
+import Head from '~/components/Head.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import Lightbox from '~/components/Lightbox.astro';
+import { SITE } from '~/lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const { title, description, image, type } = Astro.props;
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <Head {title} {description} {image} {type} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">skip to content</a>
+    <div class="page">
+      <Header />
+      <div class="content">
+        <main id="main" tabindex="-1">
+          <slot />
+        </main>
+        <Footer />
+      </div>
+    </div>
+    <Lightbox />
+  </body>
+</html>
+
+<style is:global>
+  .page {
+    /* default (mobile): single column, header stacks above content */
+    display: block;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+  main {
+    padding: var(--sp-6) 0 var(--sp-8);
+    flex: 1 0 auto;
+  }
+  main:focus {
+    outline: none;
+  }
+
+  /* Desktop: left rail + content column. 40rem (~640px) keeps the rail
+     visible on most laptop windows even when narrow. */
+  @media (min-width: 40rem) {
+    .page {
+      display: grid;
+      grid-template-columns: var(--rail-w, 13rem) minmax(0, 1fr);
+      align-items: start;
+      min-height: 100dvh;
+    }
+    main {
+      padding: var(--sp-6) 0 var(--sp-7);
+    }
+  }
+</style>

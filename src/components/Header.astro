@@ -1,0 +1,304 @@
+---
+import { CATEGORIES, LABELS, type Category } from '~/lib/categories';
+import { SITE } from '~/lib/site';
+import { getPublishedPosts, type Post } from '~/lib/posts';
+import { formatPostDate } from '~/lib/date';
+import TallinnClock from './TallinnClock.astro';
+
+const path = Astro.url.pathname;
+
+function isCurrent(href: string): boolean {
+  if (href === '/') return path === '/' || path === '';
+  return path === href || path.startsWith(href);
+}
+
+// group posts by category for the menu (max ~6 inline per group)
+const posts = await getPublishedPosts();
+const byCategory = CATEGORIES.reduce<Record<Category, Post[]>>((acc, c) => {
+  acc[c] = posts.filter((p) => p.data.category === c);
+  return acc;
+}, {} as Record<Category, Post[]>);
+
+// keep each expandable section short
+const MAX_INLINE = 6;
+---
+
+<header class="site-header">
+  <div class="rail">
+    <a class="brand" href="/" aria-label={`${SITE.title} — home`}>
+      <span class="brand-title">mikael ristmets</span>
+      <span class="brand-eyebrow">archive · portfolio</span>
+    </a>
+
+    <nav class="nav" aria-label="primary">
+      <ul class="cats">
+        {CATEGORIES.map((c) => {
+          const href = `/${c}/`;
+          const { en } = LABELS[c];
+          const items = byCategory[c];
+          const count = items.length;
+          const inline = items.slice(0, MAX_INLINE);
+          const overflow = count - inline.length;
+          const current = isCurrent(href);
+          return (
+            <li>
+              <details open={current}>
+                <summary aria-current={current ? 'page' : undefined}>
+                  <span class="cat-label">{en}</span>
+                  <span class="cat-meta" aria-hidden="true">
+                    <span class="cat-count">{count}</span>
+                    <span class="chev"></span>
+                  </span>
+                </summary>
+                <div class="cat-body">
+                  {count === 0 ? (
+                    <p class="muted small">nothing here yet.</p>
+                  ) : (
+                    <ul class="posts">
+                      {inline.map((p) => (
+                        <li>
+                          <a href={`/posts/${p.slug}/`}>
+                            <span class="post-title">{p.data.title}</span>
+                            <span class="post-date">{formatPostDate(p.data.date)}</span>
+                          </a>
+                        </li>
+                      ))}
+                      {overflow > 0 && (
+                        <li class="more-wrap">
+                          <a class="more" href={href}>+{overflow} more</a>
+                        </li>
+                      )}
+                      <li class="all-wrap">
+                        <a class="all" href={href}>see all {en} →</a>
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              </details>
+            </li>
+          );
+        })}
+      </ul>
+
+      <ul class="util">
+        <li><a href="/about/" aria-current={isCurrent('/about/') ? 'page' : undefined}>about</a></li>
+        <li><a href="/contact/" aria-current={isCurrent('/contact/') ? 'page' : undefined}>contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="meta">
+      <TallinnClock />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--rule);
+    padding: var(--sp-4);
+  }
+  .rail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+  .brand {
+    display: grid;
+    gap: var(--sp-2);
+    text-decoration: none;
+    color: inherit;
+    line-height: 1.15;
+  }
+  .brand-title {
+    font-family: var(--font-mono);
+    font-size: var(--fs-lg);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--fg);
+  }
+  .brand-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .brand:hover .brand-title,
+  .brand:focus-visible .brand-title {
+    color: var(--accent);
+  }
+
+  /* category list */
+  .cats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .cats > li {
+    border-top: 1px solid var(--rule);
+  }
+  .cats > li:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  details {
+    /* reset */
+  }
+  details > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    padding: var(--sp-3) 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--fg);
+  }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary:hover .cat-label {
+    color: var(--accent);
+  }
+  details > summary[aria-current='page'] .cat-label {
+    color: var(--accent);
+  }
+  .cat-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .cat-count {
+    font-variant-numeric: tabular-nums;
+    font-size: var(--fs-xs);
+  }
+  /* chevron — rotates when <details> is open */
+  .chev {
+    width: 0.6em;
+    height: 0.6em;
+    border-right: 1.5px solid currentColor;
+    border-top: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 120ms ease;
+    display: inline-block;
+    opacity: 0.6;
+  }
+  details[open] .chev {
+    transform: rotate(135deg);
+    opacity: 1;
+  }
+
+  .cat-body {
+    padding-bottom: var(--sp-3);
+  }
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+  .posts a {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-decoration: none;
+    padding: var(--sp-1) 0;
+    color: var(--fg);
+    line-height: 1.2;
+  }
+  .posts a:hover .post-title,
+  .posts a:focus-visible .post-title {
+    color: var(--accent);
+  }
+  .post-title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-sm);
+    color: var(--fg);
+    transition: color 120ms ease;
+  }
+  .post-date {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+  .more-wrap, .all-wrap {
+    margin-top: var(--sp-2);
+  }
+  .more, .all {
+    font-size: var(--fs-xs);
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .more:hover, .all:hover,
+  .more:focus-visible, .all:focus-visible {
+    color: var(--accent);
+  }
+  .small { font-size: var(--fs-xs); padding: var(--sp-1) 0; }
+
+  /* about / contact */
+  .util {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    font-size: var(--fs-sm);
+  }
+  .util a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .util a:hover, .util a:focus-visible {
+    color: var(--fg);
+  }
+  .util a[aria-current='page'] {
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.25em;
+  }
+
+  /* mobile: collapse all details by default for less scroll */
+  @media (max-width: 40rem) {
+    details:not([open]) summary {
+      padding: var(--sp-2) 0;
+    }
+  }
+
+  /* Desktop: full-height left rail, sticky */
+  @media (min-width: 40rem) {
+    .site-header {
+      border-bottom: none;
+      border-right: 1px solid var(--rule);
+      padding: var(--sp-5) var(--sp-4);
+      min-height: 100dvh;
+      position: sticky;
+      top: 0;
+      align-self: start;
+    }
+    .rail {
+      gap: var(--sp-5);
+      min-height: calc(100dvh - 2 * var(--sp-5));
+    }
+    .util {
+      flex-direction: row;
+    }
+    .meta {
+      margin-top: auto;
+      padding-top: var(--sp-4);
+      border-top: 1px solid var(--rule);
+    }
+  }
+</style>
