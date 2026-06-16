@@ -9,7 +9,7 @@ const year = new Date().getUTCFullYear();
     <div class="row">
       <p class="colophon">
         <span class="mark" aria-hidden="true">⁂</span>
-        set in iowan old style + system mono.
+        set in helvetica neue / arial.
         <br />
         © {year} {SITE.author}. all entries cc-by.
       </p>
@@ -42,10 +42,10 @@ const year = new Date().getUTCFullYear();
     flex-wrap: wrap;
   }
   .colophon {
-    font-family: var(--font-mono);
+    font-family: var(--font-grotesk);
     font-size: var(--fs-xs);
-    line-height: 1.6;
-    letter-spacing: 0.04em;
+    line-height: 1.55;
+    letter-spacing: 0.02em;
     max-width: 28rem;
   }
   .mark {
@@ -58,10 +58,11 @@ const year = new Date().getUTCFullYear();
     margin: 0;
     display: flex;
     gap: var(--sp-4);
-    font-family: var(--font-mono);
+    font-family: var(--font-grotesk);
+    font-weight: 700;
     font-size: var(--fs-xs);
     text-transform: uppercase;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.04em;
   }
   .meta-nav a {
     color: inherit;

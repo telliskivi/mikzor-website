@@ -73,11 +73,11 @@ const ogImage = cover ? cover.src : undefined;
     max-width: 36rem;
   }
   .post-header h1 {
-    font-family: var(--font-mono);
+    font-family: var(--font-grotesk);
     font-size: var(--fs-2xl);
-    font-weight: 400;
+    font-weight: 700;
     line-height: var(--lh-tight);
-    letter-spacing: -0.005em;
+    letter-spacing: var(--tracking-display);
     margin-top: var(--sp-1);
   }
   .post-header .eyebrow {
@@ -101,10 +101,12 @@ const ogImage = cover ? cover.src : undefined;
     letter-spacing: 0.08em;
   }
   .lede {
-    font-family: var(--font-mono);
+    font-family: var(--font-grotesk);
     font-size: var(--fs-md);
+    font-weight: 400;
     color: var(--muted);
-    line-height: 1.5;
+    line-height: 1.4;
+    letter-spacing: var(--tracking-tight);
     margin-top: var(--sp-1);
   }
   .tags {

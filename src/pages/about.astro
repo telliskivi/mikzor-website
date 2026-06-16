@@ -34,10 +34,10 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 
       <h2>colophon</h2>
       <p>
-        set in a system monospace stack. built with
-        <a href="https://astro.build">astro</a>, statically rendered.
-        all entries live as markdown files next to their images in this
-        repository.
+        set in <em>helvetica neue</em> (with arial as the windows
+        fallback). built with <a href="https://astro.build">astro</a>,
+        statically rendered. all entries live as markdown files next
+        to their images in this repository.
       </p>
     </div>
   </article>
@@ -51,16 +51,17 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
     max-width: var(--measure);
   }
   .page-head h1 {
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: var(--fs-2xl);
+    font-family: var(--font-grotesk);
+    font-weight: 700;
+    font-size: var(--fs-3xl);
     line-height: var(--lh-tight);
-    letter-spacing: 0;
+    letter-spacing: var(--tracking-display);
   }
   .lede {
-    font-family: var(--font-mono);
+    font-family: var(--font-grotesk);
     font-size: var(--fs-md);
     color: var(--fg);
-    line-height: 1.5;
+    line-height: 1.4;
+    letter-spacing: var(--tracking-tight);
   }
 </style>

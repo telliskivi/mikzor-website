@@ -101,31 +101,32 @@ const href = `/posts/${post.slug}/`;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0 var(--sp-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-grotesk);
     font-size: var(--fs-xs);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: var(--muted);
   }
   .cat { color: var(--accent); }
   .sep { opacity: 0.5; }
   .date {
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
   }
 
   .title {
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: var(--fs-md);
+    font-family: var(--font-grotesk);
+    font-weight: 700;
+    font-size: var(--fs-lg);
     line-height: var(--lh-snug);
-    letter-spacing: 0;
+    letter-spacing: var(--tracking-display);
     color: var(--fg);
     display: flex;
     align-items: baseline;
     gap: var(--sp-2);
   }
   .item--feature .title {
-    font-size: var(--fs-lg);
+    font-size: var(--fs-xl);
   }
   .title-text {
     transition: color 120ms ease;
