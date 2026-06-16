@@ -2,58 +2,16 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout
-  title="not found"
-  description="this page doesn't exist."
->
-  <section class="container missing">
-    <p class="eyebrow">⁂ &nbsp; entry not found</p>
-    <h1>
-      <span class="num">404</span>
-      <span class="cap">— a small detour</span>
-    </h1>
-    <hr class="rule rule--short" />
-    <p>
-      this page doesn't exist — or it used to and doesn't anymore.
-    </p>
-    <p>
-      <a href="/">← back to the feed</a>
-    </p>
-  </section>
+<BaseLayout title="not found" description="this page doesn't exist.">
+  <div class="container">
+    <h1>404</h1>
+    <p>page not found. <a href="/">go home</a>.</p>
+  </div>
 </BaseLayout>
 
 <style>
-  .missing {
-    max-width: var(--measure);
-    display: grid;
-    gap: var(--sp-3);
-  }
-  .missing h1 {
-    font-family: var(--font-grotesk);
-    font-weight: 700;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--tracking-display);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0 var(--sp-3);
-  }
-  .missing h1 .num {
-    font-size: var(--fs-4xl);
-    font-variant-numeric: tabular-nums;
-    color: var(--accent);
-  }
-  .missing h1 .cap {
-    font-size: var(--fs-xl);
-    color: var(--muted);
-    font-weight: 400;
-  }
-  .missing p {
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: var(--fs-sm);
-  }
-  .missing p a {
-    color: var(--fg);
+  h1 {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--sp-3);
   }
 </style>

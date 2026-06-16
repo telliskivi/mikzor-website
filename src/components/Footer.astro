@@ -5,70 +5,15 @@ const year = new Date().getUTCFullYear();
 
 <footer class="site-footer">
   <div class="container">
-    <hr class="rule" />
-    <div class="row">
-      <p class="colophon">
-        <span class="mark" aria-hidden="true">⁂</span>
-        set in helvetica neue / arial.
-        <br />
-        © {year} {SITE.author}. all entries cc-by.
-      </p>
-      <nav aria-label="footer" class="meta-nav">
-        <ul>
-          <li><a href="/feed.xml">rss</a></li>
-          <li><a href="/sitemap-index.xml">sitemap</a></li>
-          <li><a href="/about/">about</a></li>
-          <li><a href="/contact/">contact</a></li>
-        </ul>
-      </nav>
-    </div>
+    © {year} {SITE.author}
   </div>
 </footer>
 
 <style>
   .site-footer {
-    margin-top: var(--sp-9);
-    padding-bottom: var(--sp-6);
+    margin-top: var(--sp-8);
+    padding: var(--sp-5) 0;
     color: var(--muted);
-  }
-  .site-footer .rule {
-    margin: 0 0 var(--sp-5);
-  }
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--sp-5);
-    flex-wrap: wrap;
-  }
-  .colophon {
-    font-family: var(--font-grotesk);
-    font-size: var(--fs-xs);
-    line-height: 1.55;
-    letter-spacing: 0.02em;
-    max-width: 28rem;
-  }
-  .mark {
-    color: var(--accent);
-    margin-right: var(--sp-1);
-  }
-  .meta-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: var(--sp-4);
-    font-family: var(--font-grotesk);
-    font-weight: 700;
-    font-size: var(--fs-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .meta-nav a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .meta-nav a:hover, .meta-nav a:focus-visible {
-    color: var(--accent);
+    font-size: var(--fs-sm);
   }
 </style>

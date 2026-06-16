@@ -2,66 +2,26 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout
-  title="about"
-  description="about mikael ristmets — architect, photographer, barista."
->
+<BaseLayout title="about" description="about mikael ristmets.">
   <article class="container">
-    <header class="page-head">
-      <p class="eyebrow">⁂ &nbsp; about</p>
-      <h1>mikael ristmets</h1>
-      <hr class="rule rule--short" />
-    </header>
-
+    <h1>about</h1>
     <div class="prose">
-      <p class="lede">
-        <span class="red">mina usun, et arhitektuur pole üksnes ruumikujundamise
-        tööriist, vaid ka ühiskonna, misläbi on võimalik luua paremat
-        elu kõigile.</span>
-      </p>
-      <p class="lede">
-        <span class="blue">architecture is not just something we use to design
-        the space around us, but something that also shapes society,
-        which allows for the creation of better lives for everyone.</span>
-      </p>
-
       <p>
-        this site is an ongoing archive of work — architecture, furniture,
-        installations, photography, video, art, music, and coffee. the
-        homepage is a single newest-first feed of everything. each
-        section is a filtered slice of the same archive.
+        mina usun, et arhitektuur pole üksnes ruumikujundamise tööriist,
+        vaid ka ühiskonna, misläbi on võimalik luua paremat elu kõigile.
       </p>
-
-      <h2>colophon</h2>
       <p>
-        set in <em>helvetica neue</em> (with arial as the windows
-        fallback). built with <a href="https://astro.build">astro</a>,
-        statically rendered. all entries live as markdown files next
-        to their images in this repository.
+        architecture is not just something we use to design the space
+        around us, but something that also shapes society, which allows
+        for the creation of better lives for everyone.
       </p>
     </div>
   </article>
 </BaseLayout>
 
 <style>
-  .page-head {
-    margin-bottom: var(--sp-6);
-    display: grid;
-    gap: var(--sp-3);
-    max-width: var(--measure);
-  }
-  .page-head h1 {
-    font-family: var(--font-grotesk);
-    font-weight: 700;
-    font-size: var(--fs-3xl);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--tracking-display);
-  }
-  .lede {
-    font-family: var(--font-grotesk);
-    font-size: var(--fs-md);
-    color: var(--fg);
-    line-height: 1.4;
-    letter-spacing: var(--tracking-tight);
+  h1 {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--sp-5);
   }
 </style>

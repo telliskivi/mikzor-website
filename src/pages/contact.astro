@@ -2,72 +2,20 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout
-  title="contact"
-  description="how to get in touch with mikael ristmets."
->
+<BaseLayout title="contact" description="how to get in touch.">
   <article class="container">
-    <header class="page-head">
-      <p class="eyebrow">§ &nbsp; contact</p>
-      <h1>get in touch</h1>
-      <hr class="rule rule--short" />
-    </header>
-
+    <h1>contact</h1>
     <div class="prose">
-      <p class="lede">
-        <span class="red">mina usun, et arhitektuur pole üksnes ruumikujundamise
-        tööriist, vaid ka ühiskonna, misläbi on võimalik luua paremat
-        elu kõigile.</span>
-      </p>
-      <p class="lede">
-        <span class="blue">architecture is not just something we use to design
-        the space around us, but something that also shapes society,
-        which allows for the creation of better lives for everyone.</span>
-      </p>
-
-      <ul class="links">
-        <li><a href="mailto:mikael.ristmets@gmail.com">mikael.ristmets@gmail.com</a></li>
-        <li><a href="tel:+3725181279">+372 518 1279</a></li>
-        <li><a href="https://www.linkedin.com/" rel="me noopener" target="_blank">linkedin</a></li>
-        <li><a href="https://soundcloud.com/mikzor" rel="me noopener" target="_blank">soundcloud</a></li>
-        <li><a href="/feed.xml">rss</a></li>
-      </ul>
+      <p><a href="mailto:mikael.ristmets@gmail.com">mikael.ristmets@gmail.com</a></p>
+      <p><a href="tel:+3725181279">+372 518 1279</a></p>
+      <p><a href="https://soundcloud.com/mikzor" rel="me noopener" target="_blank">soundcloud</a></p>
     </div>
   </article>
 </BaseLayout>
 
 <style>
-  .page-head {
-    margin-bottom: var(--sp-6);
-    display: grid;
-    gap: var(--sp-3);
-    max-width: var(--measure);
-  }
-  .page-head h1 {
-    font-family: var(--font-grotesk);
-    font-weight: 700;
-    font-size: var(--fs-3xl);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--tracking-display);
-  }
-  .lede {
-    font-family: var(--font-grotesk);
-    font-size: var(--fs-md);
-    line-height: 1.4;
-    letter-spacing: var(--tracking-tight);
-  }
-  .links {
-    list-style: none;
-    padding: 0;
-    margin-top: var(--sp-5);
-    font-family: var(--font-mono);
-    font-size: var(--fs-sm);
-    display: grid;
-    gap: var(--sp-2);
-  }
-  .links li::before {
-    content: '→';
-    color: var(--accent);
-    margin-right: var(--sp-2);
+  h1 {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--sp-5);
   }
 </style>

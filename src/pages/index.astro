@@ -5,48 +5,10 @@ import { getPublishedPosts } from '~/lib/posts';
 import { SITE } from '~/lib/site';
 
 const posts = await getPublishedPosts();
-const total = posts.length;
 ---
 
-<BaseLayout title={undefined} description={SITE.description}>
-  <section class="container intro">
-    <p class="masthead">
-      <span class="mark" aria-hidden="true">¶</span>
-      <span class="mh-label">an ongoing archive</span>
-      <span class="mh-count">{String(total).padStart(2, '0')} entries</span>
-      <span class="mh-where">tallinn / est.</span>
-    </p>
-    <hr class="rule rule--short" />
-  </section>
-  <section class="container">
-    <Feed posts={posts} emptyMessage="no entries yet. drop a folder in src/content/posts/." />
-  </section>
+<BaseLayout description={SITE.description}>
+  <div class="container">
+    <Feed posts={posts} />
+  </div>
 </BaseLayout>
-
-<style>
-  .intro {
-    margin-bottom: var(--sp-6);
-  }
-  .masthead {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--sp-2) var(--sp-4);
-    font-family: var(--font-grotesk);
-    font-size: var(--fs-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-  }
-  .mark {
-    color: var(--accent);
-    font-family: var(--font-grotesk);
-    font-weight: 700;
-    font-size: var(--fs-md);
-    text-transform: none;
-    letter-spacing: 0;
-  }
-  .mh-label { color: var(--fg); }
-  .mh-count { font-variant-numeric: tabular-nums; }
-  .mh-where { margin-left: auto; }
-</style>

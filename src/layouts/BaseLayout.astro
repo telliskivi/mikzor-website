@@ -23,48 +23,18 @@ const { title, description, image, type } = Astro.props;
   </head>
   <body>
     <a class="skip-link" href="#main">skip to content</a>
-    <div class="page">
-      <Header />
-      <div class="content">
-        <main id="main" tabindex="-1">
-          <slot />
-        </main>
-        <Footer />
-      </div>
-    </div>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
     <Lightbox />
   </body>
 </html>
 
 <style is:global>
-  .page {
-    /* default (mobile): single column, header stacks above content */
-    display: block;
-  }
-  .content {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-  }
   main {
     padding: var(--sp-6) 0 var(--sp-8);
-    flex: 1 0 auto;
   }
-  main:focus {
-    outline: none;
-  }
-
-  /* Desktop: left rail + content column. 40rem (~640px) keeps the rail
-     visible on most laptop windows even when narrow. */
-  @media (min-width: 40rem) {
-    .page {
-      display: grid;
-      grid-template-columns: var(--rail-w, 13rem) minmax(0, 1fr);
-      align-items: start;
-      min-height: 100dvh;
-    }
-    main {
-      padding: var(--sp-6) 0 var(--sp-7);
-    }
-  }
+  main:focus { outline: none; }
 </style>

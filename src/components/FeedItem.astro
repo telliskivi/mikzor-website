@@ -1,150 +1,44 @@
 ---
-import { Image } from 'astro:assets';
-import { formatCategory } from '~/lib/categories';
 import { formatPostDate, toIsoDate } from '~/lib/date';
 import type { Post } from '~/lib/posts';
 
 interface Props {
   post: Post;
-  loading?: 'eager' | 'lazy';
-  feature?: boolean;
 }
 
-const { post, loading = 'lazy', feature = false } = Astro.props;
-const { title, date, category, cover, coverAlt } = post.data;
+const { post } = Astro.props;
+const { title, date } = post.data;
 const href = `/posts/${post.slug}/`;
 ---
 
-<article class={`item${feature ? ' item--feature' : ''}`}>
-  <a class="link" href={href}>
-    {cover ? (
-      <div class="cover">
-        <Image
-          src={cover}
-          alt={coverAlt ?? title}
-          widths={feature ? [600, 1200, 1800] : [400, 800, 1200]}
-          sizes={feature
-            ? "(min-width: 64rem) 50rem, (min-width: 40rem) 75vw, 100vw"
-            : "(min-width: 64rem) 26rem, (min-width: 40rem) 45vw, 100vw"}
-          loading={loading}
-          decoding="async"
-        />
-        <span class="frame" aria-hidden="true"></span>
-      </div>
-    ) : (
-      <div class="cover cover--empty" aria-hidden="true"></div>
-    )}
-    <div class="meta">
-      <p class="eyebrow">
-        <span class="cat">{formatCategory(category)}</span>
-        <span class="sep" aria-hidden="true">·</span>
-        <time datetime={toIsoDate(date)} class="date">— {formatPostDate(date)}</time>
-      </p>
-      <h2 class="title">
-        <span class="title-text">{title}</span>
-        <span class="arrow" aria-hidden="true">→</span>
-      </h2>
-    </div>
-  </a>
-</article>
+<a class="item" href={href}>
+  <span class="title">{title}</span>
+  <time datetime={toIsoDate(date)} class="date">{formatPostDate(date)}</time>
+</a>
 
 <style>
-  .link {
-    display: grid;
-    gap: var(--sp-4);
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .cover {
-    position: relative;
-    overflow: hidden;
-    background: var(--bg-deep);
-  }
-  .cover :global(img) {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 5 / 4;
-    object-fit: cover;
-    display: block;
-    transition: transform 380ms cubic-bezier(.2,.6,.2,1);
-  }
-  .item--feature .cover :global(img) {
-    aspect-ratio: 16 / 9;
-  }
-  .cover--empty {
-    aspect-ratio: 5 / 4;
-  }
-  /* hairline inset frame on hover */
-  .frame {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    box-shadow: inset 0 0 0 1px transparent;
-    transition: box-shadow 200ms ease;
-  }
-  .link:hover .cover :global(img),
-  .link:focus-visible .cover :global(img) {
-    transform: scale(1.025);
-  }
-  .link:hover .frame,
-  .link:focus-visible .frame {
-    box-shadow: inset 0 0 0 2px var(--accent);
-  }
-
-  .meta {
-    display: grid;
-    gap: var(--sp-2);
-  }
-  .eyebrow {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0 var(--sp-2);
-    font-family: var(--font-grotesk);
-    font-size: var(--fs-xs);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .cat { color: var(--accent); }
-  .sep { opacity: 0.5; }
-  .date {
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
-  }
-
-  .title {
-    font-family: var(--font-grotesk);
-    font-weight: 700;
-    font-size: var(--fs-lg);
-    line-height: var(--lh-snug);
-    letter-spacing: var(--tracking-display);
-    color: var(--fg);
+  .item {
     display: flex;
+    justify-content: space-between;
     align-items: baseline;
-    gap: var(--sp-2);
+    gap: var(--sp-4);
+    padding: var(--sp-3) 0;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--rule);
   }
-  .item--feature .title {
-    font-size: var(--fs-xl);
+  .item:hover .title,
+  .item:focus-visible .title {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
-  .title-text {
-    transition: color 120ms ease;
+  .title {
+    flex: 1 1 auto;
   }
-  .arrow {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    opacity: 0;
-    transform: translateX(-0.5em);
-    transition: transform 200ms ease, opacity 200ms ease;
-  }
-  .link:hover .title-text,
-  .link:focus-visible .title-text {
-    color: var(--accent);
-  }
-  .link:hover .arrow,
-  .link:focus-visible .arrow {
-    opacity: 1;
-    transform: translateX(0);
+  .date {
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 </style>

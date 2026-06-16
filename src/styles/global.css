@@ -1,52 +1,23 @@
-/* ───────────────────────────────────────────────────────────
-   palette  —  swiss white/black with a classic helvetica-spec red.
-   ─────────────────────────────────────────────────────────── */
+/* minimal — white, black, one font, one weight. */
+
 :root {
-  --bg:       #ffffff;
-  --bg-deep:  #f3f3f3;
-  --fg:       #0a0a0a;
-  --muted:    #6b6b6b;
-  --rule:     #d6d6d6;
+  --bg: #ffffff;
+  --fg: #111;
+  --muted: #888;
+  --rule: #e6e6e6;
 
-  /* iconic helvetica cherry red + a deep blue (for editorial accents) */
-  --accent:        #d6233c;
-  --accent-2:      #163a8b;
-  --accent-soft:   #e5667b;
-
-  --selection-bg: #0a0a0a;
-  --selection-fg: #ffffff;
-
-  /* type stacks — real grotesks. helvetica neue on mac, arial on pc,
-     inter if it happens to be installed, system-ui as last resort. */
-  --font-grotesk:
+  --font:
     "Helvetica Neue", "Helvetica", "Inter", "Arial",
-    "system-ui", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-sans:  var(--font-grotesk);
-  --font-serif: var(--font-grotesk);   /* aliased — no serifs anywhere */
+    system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:
-    "JetBrains Mono", "IBM Plex Mono", "SF Mono", "SFMono-Regular",
-    "Menlo", "Consolas", "Liberation Mono", ui-monospace, monospace;
+    "SF Mono", "SFMono-Regular", "Menlo", "Consolas",
+    ui-monospace, monospace;
 
-  /* type scale — bigger contrast top-to-bottom (swiss style) */
-  --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
   --fs-base: 1rem;
   --fs-md: 1.25rem;
-  --fs-lg: 1.625rem;
-  --fs-xl: 2.25rem;
-  --fs-2xl: 3.5rem;
-  --fs-3xl: 5rem;
-  --fs-4xl: 7rem;
+  --fs-lg: 1.75rem;
 
-  --lh-tight: 1.02;
-  --lh-snug: 1.2;
-  --lh-body: 1.55;
-
-  --tracking-tight: -0.02em;
-  --tracking-display: -0.035em;
-
-  /* spacing */
-  --sp-1: 0.25rem;
   --sp-2: 0.5rem;
   --sp-3: 0.75rem;
   --sp-4: 1rem;
@@ -54,41 +25,29 @@
   --sp-6: 2rem;
   --sp-7: 3rem;
   --sp-8: 4.5rem;
-  --sp-9: 6rem;
 
-  --max-w: 80rem;
   --measure: 36rem;
+  --max-w: 56rem;
 
   color-scheme: light;
 }
 
-/* ───────────────────────────────────────────────────────────
-   reset
-   ─────────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
   margin: 0;
   min-height: 100dvh;
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-grotesk);
+  font-family: var(--font);
   font-size: var(--fs-base);
-  line-height: var(--lh-body);
-  letter-spacing: var(--tracking-tight);
-  text-rendering: optimizeLegibility;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: 'kern' 1, 'liga' 1, 'ss01' 1, 'tnum' 0;
 }
 
-h1, h2, h3, h4, h5, h6, p, figure, blockquote, ul, ol, dl {
+h1, h2, h3, h4, h5, h6, p, ul, ol, figure, blockquote {
   margin: 0;
   font-weight: 400;
 }
@@ -97,48 +56,24 @@ img, svg, video, audio, iframe {
   display: block;
   max-width: 100%;
 }
-
 img { height: auto; }
 
 a {
   color: inherit;
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  text-decoration-color: currentColor;
-  transition: color 100ms ease;
+  text-underline-offset: 0.2em;
 }
-a:hover,
-a:focus-visible {
-  color: var(--accent);
-}
+a:hover, a:focus-visible { color: var(--muted); }
 
-::selection {
-  background: var(--selection-bg);
-  color: var(--selection-fg);
-}
+::selection { background: var(--fg); color: var(--bg); }
 
 :focus { outline: none; }
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 0;
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
 }
 
-/* ───────────────────────────────────────────────────────────
-   editorial colour utilities — keep the red/blue inline accents
-   used in the post bodies (e.g. "fotograafia", "darkrooms").
-   ─────────────────────────────────────────────────────────── */
-.red, .acc-red {
-  color: var(--accent);
-}
-.blue, .acc-blue {
-  color: var(--accent-2);
-}
-
-/* ───────────────────────────────────────────────────────────
-   utilities
-   ─────────────────────────────────────────────────────────── */
 .skip-link {
   position: absolute;
   top: var(--sp-2);
@@ -147,17 +82,12 @@ a:focus-visible {
   color: var(--bg);
   padding: var(--sp-2) var(--sp-3);
   text-decoration: none;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: var(--fs-sm);
   transform: translateY(-200%);
-  transition: transform 120ms ease;
+  transition: transform 100ms ease;
   z-index: 100;
 }
-.skip-link:focus-visible {
-  transform: translateY(0);
-  outline-offset: 2px;
-}
+.skip-link:focus-visible { transform: translateY(0); }
 
 .sr-only {
   position: absolute;
@@ -173,128 +103,75 @@ a:focus-visible {
   width: min(100% - 2 * var(--sp-5), var(--max-w));
   margin-inline: auto;
 }
-.measure { max-width: var(--measure); }
 
-.eyebrow {
-  font-size: var(--fs-xs);
-  letter-spacing: 0.04em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-.muted { color: var(--muted); }
+/* keep the inline colour utilities available but neutral. */
+.red, .blue, .acc-red, .acc-blue { color: inherit; }
 
-.rule {
-  border: 0;
-  border-top: 1px solid var(--fg);
-  margin: var(--sp-6) 0;
-  display: block;
-  width: 100%;
-}
-.rule--short {
-  width: 3rem;
-  border-top-color: var(--accent);
-  border-top-width: 2px;
-}
-
-/* ───────────────────────────────────────────────────────────
-   prose — body copy. left-aligned, swiss-style.
-   ─────────────────────────────────────────────────────────── */
+/* prose — for post bodies. */
 .prose {
-  font-family: var(--font-grotesk);
-  font-size: var(--fs-base);
-  line-height: var(--lh-body);
-  letter-spacing: var(--tracking-tight);
   max-width: var(--measure);
+  font-size: var(--fs-base);
+  line-height: 1.6;
 }
 .prose > * + * { margin-top: var(--sp-4); }
-
-.prose h2,
-.prose h3 {
-  font-family: var(--font-grotesk);
-  font-weight: 700;
-  line-height: var(--lh-snug);
-  letter-spacing: var(--tracking-display);
-  margin-top: var(--sp-7);
-}
 .prose h2 {
-  font-size: var(--fs-lg);
+  font-size: var(--fs-md);
+  margin-top: var(--sp-6);
 }
 .prose h3 {
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
+  margin-top: var(--sp-5);
 }
-.prose h2 + p,
-.prose h3 + p { margin-top: var(--sp-3); }
-
 .prose img,
 .prose video,
 .prose iframe,
 .prose audio {
   width: 100%;
-  border-radius: 0;
-  margin-top: var(--sp-5);
+  margin-top: var(--sp-4);
 }
-.prose figure { margin-top: var(--sp-6); }
 .prose figcaption {
   margin-top: var(--sp-2);
   color: var(--muted);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-size: var(--fs-sm);
+}
+.prose blockquote {
+  padding-left: var(--sp-4);
+  border-left: 1px solid var(--rule);
+  color: var(--muted);
+}
+.prose ul,
+.prose ol { padding-left: 1.4em; }
+.prose li + li { margin-top: var(--sp-2); }
+.prose strong, .prose em {
+  font-weight: 400;
+  font-style: normal;
+  color: inherit;
 }
 .prose pre {
   overflow-x: auto;
-  padding: var(--sp-4);
-  background: var(--bg-deep);
   font-family: var(--font-mono);
   font-size: var(--fs-sm);
-  letter-spacing: 0;
+  padding: var(--sp-3);
+  background: #f5f5f5;
 }
 .prose code {
   font-family: var(--font-mono);
   font-size: 0.95em;
-  letter-spacing: 0;
-}
-.prose blockquote {
-  border-left: 3px solid var(--accent);
-  padding-left: var(--sp-5);
-  margin-left: 0;
-  color: var(--fg);
-  font-size: var(--fs-md);
-  line-height: 1.4;
-}
-.prose ul,
-.prose ol {
-  padding-left: 1.4em;
-}
-.prose li + li { margin-top: var(--sp-2); }
-.prose strong {
-  font-weight: 700;
-  color: var(--accent);
-}
-.prose em {
-  font-style: normal;
-  color: var(--accent-2);
 }
 
-/* gallery */
+/* gallery — kept for the lightbox opt-ins */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   gap: var(--sp-3);
-  margin-top: var(--sp-6);
+  margin-top: var(--sp-5);
   max-width: none;
 }
-.gallery a {
-  display: block;
-  text-decoration: none;
-  position: relative;
-}
+.gallery a { display: block; text-decoration: none; }
 .gallery img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 .gallery a:hover img,
-.gallery a:focus-visible img {
-  opacity: 0.85;
-}
+.gallery a:focus-visible img { opacity: 0.85; }

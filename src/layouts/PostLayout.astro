@@ -1,7 +1,5 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { Image } from 'astro:assets';
-import { formatCategory } from '~/lib/categories';
 import { formatPostDate, toIsoDate } from '~/lib/date';
 import type { Post } from '~/lib/posts';
 
@@ -10,7 +8,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, date, category, tags, cover, coverAlt, description } = post.data;
+const { title, date, description, cover } = post.data;
 const ogImage = cover ? cover.src : undefined;
 ---
 
@@ -20,126 +18,27 @@ const ogImage = cover ? cover.src : undefined;
   image={ogImage}
   type="article"
 >
-  <article class="post container">
-    <header class="post-header">
-      <p class="eyebrow">
-        <a href={`/${category}/`} class="cat-link">{formatCategory(category)}</a>
-        <span class="sep" aria-hidden="true">·</span>
-        <time datetime={toIsoDate(date)} class="date">— {formatPostDate(date)}</time>
-      </p>
+  <article class="container post">
+    <header>
       <h1>{title}</h1>
-      {description && (
-        <p class="lede">{description}</p>
-      )}
-      {tags.length > 0 && (
-        <ul class="tags" aria-label="tags">
-          {tags.map((t) => <li class="tag">#{t}</li>)}
-        </ul>
-      )}
+      <time datetime={toIsoDate(date)} class="date">{formatPostDate(date)}</time>
     </header>
-
-    {cover && (
-      <figure class="cover">
-        <Image
-          src={cover}
-          alt={coverAlt ?? title}
-          widths={[480, 960, 1440, 1920]}
-          sizes="(min-width: 64rem) 64rem, 100vw"
-          loading="eager"
-          decoding="async"
-        />
-      </figure>
-    )}
-
     <div class="prose">
       <slot />
     </div>
-
-    <footer class="post-footer">
-      <hr class="rule rule--short" />
-      <a href="/" class="back">← back to the feed</a>
-    </footer>
   </article>
 </BaseLayout>
 
 <style>
-  .post {
-    padding-top: var(--sp-2);
-  }
-  .post-header {
+  .post header {
     margin-bottom: var(--sp-6);
-    display: grid;
-    gap: var(--sp-3);
-    max-width: 36rem;
   }
-  .post-header h1 {
-    font-family: var(--font-grotesk);
-    font-size: var(--fs-2xl);
-    font-weight: 700;
-    line-height: var(--lh-tight);
-    letter-spacing: var(--tracking-display);
-    margin-top: var(--sp-1);
+  .post h1 {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--sp-2);
   }
-  .post-header .eyebrow {
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0 var(--sp-2);
-  }
-  .cat-link {
-    color: var(--accent);
-    text-decoration: none;
-  }
-  .cat-link:hover, .cat-link:focus-visible {
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-underline-offset: 0.2em;
-  }
-  .sep { opacity: 0.5; }
   .date {
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.08em;
-  }
-  .lede {
-    font-family: var(--font-grotesk);
-    font-size: var(--fs-md);
-    font-weight: 400;
     color: var(--muted);
-    line-height: 1.4;
-    letter-spacing: var(--tracking-tight);
-    margin-top: var(--sp-1);
-  }
-  .tags {
-    list-style: none;
-    padding: 0;
-    margin-top: var(--sp-2);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-2) var(--sp-3);
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    color: var(--muted);
-  }
-
-  .cover {
-    margin: 0 0 var(--sp-7);
-  }
-  .cover :global(img) {
-    width: 100%;
-    height: auto;
-  }
-
-  .post-footer {
-    margin-top: var(--sp-8);
-  }
-  .back {
-    color: var(--muted);
-    text-decoration: none;
-    font-family: var(--font-mono);
     font-size: var(--fs-sm);
-    letter-spacing: 0.04em;
-  }
-  .back:hover, .back:focus-visible {
-    color: var(--accent);
   }
 </style>
