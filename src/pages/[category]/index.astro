@@ -17,19 +17,49 @@ interface Props {
 
 const { category } = Astro.props;
 const posts = await getPostsByCategory(category);
-const { en } = LABELS[category];
+const { en, et } = LABELS[category];
 ---
 
-<BaseLayout title={en} description={`posts in ${en}.`}>
-  <div class="container">
-    <h1>{en}</h1>
-    <Feed posts={posts} emptyMessage={`no entries in ${en} yet.`} />
-  </div>
+<BaseLayout title={en} description={`Entries in ${en}.`}>
+  <section class="container head">
+    <p class="eyebrow">Section</p>
+    <h1>
+      <em>{en}</em><br />
+      <span class="et">{et}</span>
+    </h1>
+  </section>
+
+  <section class="container">
+    <Feed posts={posts} emptyMessage={`No entries in ${en} yet.`} />
+  </section>
 </BaseLayout>
 
 <style>
+  .head {
+    margin-bottom: var(--sp-8);
+    max-width: var(--measure-wide);
+  }
   h1 {
-    font-size: var(--fs-lg);
-    margin-bottom: var(--sp-5);
+    font-family: var(--font-serif);
+    font-size: var(--fs-3xl);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    margin-top: var(--sp-3);
+  }
+  h1 em {
+    font-style: italic;
+  }
+  h1 .et {
+    color: var(--muted);
+    font-size: var(--fs-xl);
+  }
+  @media (max-width: 40rem) {
+    h1 {
+      font-size: var(--fs-2xl);
+    }
+    h1 .et {
+      font-size: var(--fs-lg);
+    }
   }
 </style>

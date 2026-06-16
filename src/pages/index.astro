@@ -5,10 +5,72 @@ import { getPublishedPosts } from '~/lib/posts';
 import { SITE } from '~/lib/site';
 
 const posts = await getPublishedPosts();
+const count = posts.length;
 ---
 
 <BaseLayout description={SITE.description}>
-  <div class="container">
+  <section class="container intro">
+    <p class="eyebrow">An archive in progress</p>
+    <h1 class="masthead">
+      Architecture,<br />
+      Photography,<br />
+      <em>and other small undertakings</em>.
+    </h1>
+    <p class="bio">
+      A working archive by <em>Mikael Ristmets</em> — architecture student
+      at the Estonian Academy of Arts, photographer with film and a
+      darkroom, barista at <em>The Brick Coffee Roastery</em>,
+      occasional installation-maker, occasional zine-maker. Based in
+      Tallinn, with detours through Vienna.
+    </p>
+    <p class="counter">
+      <span aria-hidden="true">¶ &nbsp;</span>
+      {count} entr{count === 1 ? 'y' : 'ies'} so far
+    </p>
+  </section>
+
+  <section class="container">
     <Feed posts={posts} />
-  </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .intro {
+    margin-bottom: var(--sp-9);
+    max-width: 56rem;
+  }
+  .masthead {
+    font-family: var(--font-serif);
+    font-size: var(--fs-3xl);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    margin: var(--sp-4) 0 var(--sp-6);
+  }
+  .masthead em {
+    font-style: italic;
+  }
+  .bio {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    line-height: 1.45;
+    max-width: 40rem;
+    color: var(--fg);
+  }
+  .bio em {
+    font-style: italic;
+  }
+  .counter {
+    margin-top: var(--sp-6);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  @media (max-width: 40rem) {
+    .masthead {
+      font-size: var(--fs-2xl);
+    }
+  }
+</style>

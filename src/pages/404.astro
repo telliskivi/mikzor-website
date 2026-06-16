@@ -2,16 +2,43 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="not found" description="this page doesn't exist.">
-  <div class="container">
-    <h1>404</h1>
-    <p>page not found. <a href="/">go home</a>.</p>
-  </div>
+<BaseLayout title="Not found" description="This page doesn't exist.">
+  <section class="container missing">
+    <p class="eyebrow">404</p>
+    <h1><em>A small detour.</em></h1>
+    <p class="muted">
+      This page doesn't exist — or it used to and doesn't anymore.
+    </p>
+    <p><a href="/">← Back to the index</a></p>
+  </section>
 </BaseLayout>
 
 <style>
+  .missing {
+    max-width: var(--measure-wide);
+    display: grid;
+    gap: var(--sp-4);
+  }
   h1 {
-    font-size: var(--fs-lg);
-    margin-bottom: var(--sp-3);
+    font-family: var(--font-serif);
+    font-size: var(--fs-2xl);
+    font-weight: 400;
+    line-height: var(--lh-tight);
+    letter-spacing: -0.02em;
+  }
+  h1 em { font-style: italic; }
+  .missing > p:last-child {
+    margin-top: var(--sp-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .missing > p:last-child a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+  .missing > p:last-child a:hover {
+    color: var(--fg);
   }
 </style>

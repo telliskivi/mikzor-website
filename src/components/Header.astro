@@ -11,10 +11,13 @@ function isCurrent(href: string): boolean {
 ---
 
 <header class="site-header">
-  <div class="container row">
-    <a class="brand" href="/">{SITE.title}</a>
+  <div class="container">
+    <a class="brand" href="/" aria-label={`${SITE.title} — home`}>
+      <span class="given">Mikael</span> <span class="family">Ristmets</span>
+    </a>
     <nav aria-label="primary">
       <ul>
+        <li><a href="/" aria-current={isCurrent('/') ? 'page' : undefined}>Index</a></li>
         {CATEGORIES.map((c) => {
           const href = `/${c}/`;
           const { en } = LABELS[c];
@@ -24,8 +27,8 @@ function isCurrent(href: string): boolean {
             </li>
           );
         })}
-        <li><a href="/about/" aria-current={isCurrent('/about/') ? 'page' : undefined}>about</a></li>
-        <li><a href="/contact/" aria-current={isCurrent('/contact/') ? 'page' : undefined}>contact</a></li>
+        <li><a href="/about/" aria-current={isCurrent('/about/') ? 'page' : undefined}>About</a></li>
+        <li><a href="/contact/" aria-current={isCurrent('/contact/') ? 'page' : undefined}>Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -33,19 +36,22 @@ function isCurrent(href: string): boolean {
 
 <style>
   .site-header {
-    padding: var(--sp-5) 0 var(--sp-6);
-  }
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--sp-3) var(--sp-5);
+    padding: var(--sp-7) 0 var(--sp-6);
   }
   .brand {
-    font-size: var(--fs-md);
+    display: block;
     text-decoration: none;
     color: var(--fg);
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    letter-spacing: -0.005em;
+    line-height: 1;
+  }
+  .brand .given {
+    font-style: italic;
+  }
+  nav {
+    margin-top: var(--sp-5);
   }
   nav ul {
     list-style: none;
@@ -53,8 +59,11 @@ function isCurrent(href: string): boolean {
     margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--sp-3) var(--sp-4);
-    font-size: var(--fs-sm);
+    gap: var(--sp-3) var(--sp-5);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
   nav a {
     text-decoration: none;

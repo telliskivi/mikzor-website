@@ -1,44 +1,90 @@
 ---
-import { formatPostDate, toIsoDate } from '~/lib/date';
+import { LABELS } from '~/lib/categories';
+import { toIsoDate } from '~/lib/date';
 import type { Post } from '~/lib/posts';
 
 interface Props {
   post: Post;
+  index: number;
 }
 
-const { post } = Astro.props;
-const { title, date } = post.data;
+const { post, index } = Astro.props;
+const { title, date, category, description } = post.data;
 const href = `/posts/${post.slug}/`;
+const year = date.getUTCFullYear();
+const num = String(index).padStart(2, '0');
+const { en } = LABELS[category];
 ---
 
 <a class="item" href={href}>
-  <span class="title">{title}</span>
-  <time datetime={toIsoDate(date)} class="date">{formatPostDate(date)}</time>
+  <span class="num" aria-hidden="true">№ {num}</span>
+  <div class="body">
+    <h2 class="title">{title}</h2>
+    {description && <p class="lede">{description}</p>}
+    <p class="meta">
+      <span class="cat">{en}</span>
+      <span aria-hidden="true"> · </span>
+      <time datetime={toIsoDate(date)}>{year}</time>
+    </p>
+  </div>
 </a>
 
 <style>
   .item {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: var(--sp-4);
-    padding: var(--sp-3) 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--sp-2) var(--sp-5);
+    padding: var(--sp-6) 0;
     text-decoration: none;
     color: inherit;
     border-bottom: 1px solid var(--rule);
   }
-  .item:hover .title,
-  .item:focus-visible .title {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  .num {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.55em;
+    white-space: nowrap;
+  }
+  .body {
+    display: grid;
+    gap: var(--sp-3);
   }
   .title {
-    flex: 1 1 auto;
+    font-family: var(--font-serif);
+    font-size: var(--fs-xl);
+    font-weight: 400;
+    line-height: var(--lh-snug);
+    letter-spacing: -0.015em;
+    color: var(--fg);
   }
-  .date {
+  .item:hover .title,
+  .item:focus-visible .title {
+    font-style: italic;
+  }
+  .lede {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    line-height: 1.35;
     color: var(--muted);
-    font-size: var(--fs-sm);
-    flex: 0 0 auto;
-    white-space: nowrap;
+    max-width: 36rem;
+  }
+  .meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: var(--sp-1);
+  }
+  .cat { color: var(--fg); }
+
+  @media (max-width: 36rem) {
+    .item {
+      grid-template-columns: 1fr;
+    }
+    .num { padding-top: 0; }
   }
 </style>

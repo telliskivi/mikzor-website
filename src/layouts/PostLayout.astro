@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { LABELS } from '~/lib/categories';
 import { formatPostDate, toIsoDate } from '~/lib/date';
 import type { Post } from '~/lib/posts';
 
@@ -8,8 +9,10 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, date, description, cover } = post.data;
+const { title, date, description, category, cover } = post.data;
 const ogImage = cover ? cover.src : undefined;
+const { en } = LABELS[category];
+const year = date.getUTCFullYear();
 ---
 
 <BaseLayout
@@ -19,26 +22,98 @@ const ogImage = cover ? cover.src : undefined;
   type="article"
 >
   <article class="container post">
-    <header>
+    <header class="post-head">
+      <p class="eyebrow">
+        <a href={`/${category}/`}>{en}</a>
+        <span aria-hidden="true"> · </span>
+        <time datetime={toIsoDate(date)}>{year}</time>
+      </p>
       <h1>{title}</h1>
-      <time datetime={toIsoDate(date)} class="date">{formatPostDate(date)}</time>
+      {description && <p class="lede"><em>{description}</em></p>}
+      <p class="date">{formatPostDate(date)}</p>
     </header>
+
     <div class="prose">
       <slot />
     </div>
+
+    <footer class="post-foot">
+      <a href="/">← Back to the index</a>
+    </footer>
   </article>
 </BaseLayout>
 
 <style>
-  .post header {
-    margin-bottom: var(--sp-6);
+  .post {
+    max-width: var(--measure-wide);
   }
-  .post h1 {
-    font-size: var(--fs-lg);
-    margin-bottom: var(--sp-2);
+  .post-head {
+    margin-bottom: var(--sp-8);
+    display: grid;
+    gap: var(--sp-5);
   }
-  .date {
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: var(--muted);
-    font-size: var(--fs-sm);
+  }
+  .eyebrow a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .eyebrow a:hover, .eyebrow a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--fs-3xl);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    max-width: 20ch;
+  }
+  .lede {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    line-height: 1.25;
+    color: var(--muted);
+    max-width: 30rem;
+  }
+  .lede em { font-style: italic; }
+  .date {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .post-foot {
+    margin-top: var(--sp-10);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .post-foot a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+  .post-foot a:hover, .post-foot a:focus-visible {
+    color: var(--fg);
+  }
+
+  @media (max-width: 40rem) {
+    h1 {
+      font-size: var(--fs-2xl);
+    }
+    .lede {
+      font-size: var(--fs-md);
+    }
   }
 </style>

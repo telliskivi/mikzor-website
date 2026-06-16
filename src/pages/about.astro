@@ -2,26 +2,58 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="about" description="about mikael ristmets.">
+<BaseLayout title="About" description="About Mikael Ristmets.">
   <article class="container">
-    <h1>about</h1>
+    <header class="head">
+      <p class="eyebrow">About</p>
+      <h1>A short note from <em>Mikael</em>.</h1>
+    </header>
+
     <div class="prose">
       <p>
-        mina usun, et arhitektuur pole üksnes ruumikujundamise tööriist,
+        Mina usun, et arhitektuur pole üksnes ruumikujundamise tööriist,
         vaid ka ühiskonna, misläbi on võimalik luua paremat elu kõigile.
       </p>
       <p>
-        architecture is not just something we use to design the space
-        around us, but something that also shapes society, which allows
-        for the creation of better lives for everyone.
+        <em>
+          Architecture is not just something we use to design the space
+          around us, but something that also shapes society, which allows
+          for the creation of better lives for everyone.
+        </em>
+      </p>
+
+      <h2>About this site</h2>
+      <p>
+        This site is an ongoing archive of work: architecture, furniture,
+        installations, photography, video, drawings, music, and coffee.
+        The index lists everything newest-first. Each section is a
+        filtered slice of the same archive.
+      </p>
+
+      <h2>Colophon</h2>
+      <p>
+        Set in <em>Iowan Old Style</em> (with Palatino, Charter and Georgia
+        as fallbacks). Built with <a href="https://astro.build">Astro</a>
+        and statically rendered. All entries live as Markdown files next
+        to their images in this repository.
       </p>
     </div>
   </article>
 </BaseLayout>
 
 <style>
-  h1 {
-    font-size: var(--fs-lg);
-    margin-bottom: var(--sp-5);
+  .head {
+    margin-bottom: var(--sp-8);
+    max-width: var(--measure-wide);
+    display: grid;
+    gap: var(--sp-3);
   }
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--fs-2xl);
+    font-weight: 400;
+    line-height: var(--lh-tight);
+    letter-spacing: -0.02em;
+  }
+  h1 em { font-style: italic; }
 </style>

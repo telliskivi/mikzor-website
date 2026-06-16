@@ -2,20 +2,44 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="contact" description="how to get in touch.">
+<BaseLayout title="Contact" description="How to get in touch.">
   <article class="container">
-    <h1>contact</h1>
-    <div class="prose">
-      <p><a href="mailto:mikael.ristmets@gmail.com">mikael.ristmets@gmail.com</a></p>
-      <p><a href="tel:+3725181279">+372 518 1279</a></p>
-      <p><a href="https://soundcloud.com/mikzor" rel="me noopener" target="_blank">soundcloud</a></p>
+    <header class="head">
+      <p class="eyebrow">Correspondence</p>
+      <h1><em>Get in touch.</em></h1>
+    </header>
+
+    <div class="prose contact-prose">
+      <p>
+        The fastest way is by mail —
+        <a href="mailto:mikael.ristmets@gmail.com">mikael.ristmets@gmail.com</a>.
+      </p>
+      <p>
+        Or by phone — <a href="tel:+3725181279">+372 518 1279</a>.
+      </p>
+      <p>
+        Elsewhere —
+        <a href="https://soundcloud.com/mikzor" rel="me noopener" target="_blank">SoundCloud</a>,
+        <a href="https://www.linkedin.com/" rel="me noopener" target="_blank">LinkedIn</a>,
+        and a <a href="/feed.xml">subscribable feed</a>.
+      </p>
     </div>
   </article>
 </BaseLayout>
 
 <style>
-  h1 {
-    font-size: var(--fs-lg);
-    margin-bottom: var(--sp-5);
+  .head {
+    margin-bottom: var(--sp-7);
+    max-width: var(--measure-wide);
+    display: grid;
+    gap: var(--sp-3);
   }
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--fs-2xl);
+    font-weight: 400;
+    line-height: var(--lh-tight);
+    letter-spacing: -0.02em;
+  }
+  h1 em { font-style: italic; }
 </style>

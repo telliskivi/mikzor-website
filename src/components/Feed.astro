@@ -8,27 +8,29 @@ interface Props {
 }
 
 const { posts, emptyMessage = 'nothing here yet.' } = Astro.props;
+
+// Newest at the top, but number chronologically (oldest = 1) so an
+// archive number sticks to a post no matter where it appears.
+const total = posts.length;
 ---
 
 {posts.length === 0 ? (
   <p class="empty">{emptyMessage}</p>
 ) : (
-  <ul class="feed" role="list">
-    {posts.map((post) => (
-      <li><FeedItem post={post} /></li>
+  <div class="feed">
+    {posts.map((post, i) => (
+      <FeedItem post={post} index={total - i} />
     ))}
-  </ul>
+  </div>
 )}
 
 <style>
   .feed {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     border-top: 1px solid var(--rule);
   }
   .empty {
     color: var(--muted);
-    padding: var(--sp-5) 0;
+    font-style: italic;
+    padding: var(--sp-6) 0;
   }
 </style>
